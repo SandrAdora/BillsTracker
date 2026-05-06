@@ -17,7 +17,7 @@ if __name__ == '__main__':
     os.chdir(ROOT)
     port = int(os.environ.get('PORT', 8000))
     server = HTTPServer(('0.0.0.0', port), Handler)
-    print(f'eXpenceTrack running at http://0.0.0.0:{port}')
+    print(f'eXpenseTrack running at http://0.0.0.0:{port}')
     try:
         server.serve_forever()
     except KeyboardInterrupt:
