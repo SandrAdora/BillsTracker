@@ -1,6 +1,6 @@
 {
-  "name": "eXpenceTracker",
-  "short_name": "eXpence",
+  "name": "eXpenseTracker",
+  "short_name": "eXpense",
   "description": "Your smart finance tracker",
   "start_url": "/",
   "display": "standalone",
