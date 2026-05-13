@@ -20,10 +20,13 @@ const categoryColors = {
 };
 
 // ── State ──────────────────────────────────────────────────────────────────────
-let bills        = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-let sortBy       = 'date';
-let currentFile  = null;
-let currentTotal = 0;
+let bills             = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let sortBy            = 'date';
+let currentFile       = null;
+let currentTotal      = 0;
+let activeTab         = 'active';
+let editReceiptAction = 'keep';
+let editNewFile       = null;
 
 // ── IndexedDB (receipt storage) ────────────────────────────────────────────────
 const DB_NAME  = 'expencetracker_db';
@@ -109,6 +112,15 @@ const receiptBackdrop    = document.getElementById('receiptBackdrop');
 const receiptModalClose  = document.getElementById('receiptModalClose');
 const receiptModalTitle  = document.getElementById('receiptModalTitle');
 const receiptModalBody   = document.getElementById('receiptModalBody');
+const paidList           = document.getElementById('paidList');
+const paidEmptyState     = document.getElementById('paidEmptyState');
+const paidCount          = document.getElementById('paidCount');
+const tabBtns            = document.querySelectorAll('.tab-btn');
+const editBillName       = document.getElementById('editBillName');
+const editBillDate       = document.getElementById('editBillDate');
+const editReceiptLabel   = document.getElementById('editReceiptLabel');
+const editReceiptFile    = document.getElementById('editReceiptFile');
+const editReceiptRemove  = document.getElementById('editReceiptRemove');
 
 // ── Theme ──────────────────────────────────────────────────────────────────────
 (function initTheme() {
@@ -127,6 +139,16 @@ syncCategoryColor();
 addRipple(submitBtn);
 render();
 registerSW();
+
+// ── Tabs ───────────────────────────────────────────────────────────────────────
+tabBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    activeTab = btn.dataset.tab;
+    tabBtns.forEach((b) => b.classList.toggle('active', b === btn));
+    list.style.display     = activeTab === 'active' ? '' : 'none';
+    paidList.style.display = activeTab === 'paid'   ? '' : 'none';
+  });
+});
 
 // ── Sort ───────────────────────────────────────────────────────────────────────
 sortBtns.forEach((btn) => {
@@ -226,13 +248,15 @@ form.addEventListener('submit', async (e) => {
 // ── Search ─────────────────────────────────────────────────────────────────────
 searchInput.addEventListener('input', () => {
   const q = searchInput.value.toLowerCase();
-  list.querySelectorAll('.bill-item').forEach((item) => {
-    item.classList.toggle('hidden', !item.dataset.name.toLowerCase().includes(q));
+  [list, paidList].forEach((ul) => {
+    ul.querySelectorAll('.bill-item').forEach((item) => {
+      item.classList.toggle('hidden', !item.dataset.name.toLowerCase().includes(q));
+    });
   });
 });
 
-// ── List click delegation (delete + receipt) ───────────────────────────────────
-list.addEventListener('click', (e) => {
+// ── List click delegation ──────────────────────────────────────────────────────
+function handleListClick(e) {
   const delBtn = e.target.closest('.bill-delete');
   if (delBtn) {
     const li = delBtn.closest('.bill-item');
@@ -247,75 +271,112 @@ list.addEventListener('click', (e) => {
     return;
   }
 
+  const reactBtn = e.target.closest('.bill-reactivate');
+  if (reactBtn) {
+    const bill = bills.find((b) => b.id === reactBtn.dataset.id);
+    if (!bill) return;
+    bill.paymentStatus = 'unpaid';
+    bill.paidAmount    = 0;
+    save(); render();
+    activeTab = 'active';
+    tabBtns.forEach((b) => b.classList.toggle('active', b.dataset.tab === 'active'));
+    list.style.display     = '';
+    paidList.style.display = 'none';
+    showToast('Ausgabe reaktiviert.');
+    return;
+  }
+
   const payBtn = e.target.closest('.bill-pay');
   if (payBtn) { openPaymentModal(payBtn.dataset.id); return; }
 
   const recBtn = e.target.closest('.bill-receipt');
   if (recBtn) openReceipt(recBtn.dataset.receipt, recBtn.dataset.name);
-});
+}
+
+list.addEventListener('click', handleListClick);
+paidList.addEventListener('click', handleListClick);
 
 // ── Render ─────────────────────────────────────────────────────────────────────
 function render() {
-  const sum = bills.reduce((s, b) => s + b.amount, 0);
-  emptyState.style.display = bills.length ? 'none' : 'flex';
-  countBadge.textContent   = bills.length;
+  const activeBills = bills.filter((b) => b.paymentStatus !== 'full');
+  const paidBills   = bills.filter((b) => b.paymentStatus === 'full');
+  const allSum      = bills.reduce((s, b) => s + b.amount, 0);
+
+  emptyState.style.display     = activeBills.length ? 'none' : 'flex';
+  paidEmptyState.style.display = paidBills.length   ? 'none' : 'flex';
+  countBadge.textContent       = activeBills.length;
+  paidCount.textContent    = paidBills.length;
   headerCount.textContent  = bills.length;
-  headerTotal.textContent  = fmt(sum);
-  animateTotal(sum);
+  headerTotal.textContent  = fmt(allSum);
+  animateTotal(allSum);
 
   list.querySelectorAll('.bill-item').forEach((el) => el.remove());
+  paidList.querySelectorAll('.bill-item').forEach((el) => el.remove());
 
-  [...bills]
-    .sort((a, b) => {
-      if (sortBy === 'amount') return b.amount - a.amount;
-      if (sortBy === 'name')   return a.name.localeCompare(b.name, 'de');
-      return b.date.localeCompare(a.date);
-    })
-    .forEach((b) => {
-      const color     = categoryColors[b.category] ?? '#059669';
-      const payStatus = b.paymentStatus ?? 'unpaid';
-      const payBadge  = payStatus === 'full'
-        ? `<span class="pay-badge pay-badge--full">Bezahlt</span>`
-        : payStatus === 'partial'
-          ? `<span class="pay-badge pay-badge--partial">Noch ${fmt(b.amount - (b.paidAmount ?? 0))}</span>`
-          : '';
+  const sortFn = (a, b) => {
+    if (sortBy === 'amount') return b.amount - a.amount;
+    if (sortBy === 'name')   return a.name.localeCompare(b.name, 'de');
+    return b.date.localeCompare(a.date);
+  };
 
-      const li    = document.createElement('li');
-      li.className    = 'bill-item';
-      li.dataset.name = b.name;
-      li.style.setProperty('--item-accent', color);
-      li.innerHTML = `
-        <div class="bill-icon">${categoryIcons[b.category] ?? categoryIcons.sonstiges}</div>
-        <div class="bill-info">
-          <div class="bill-name">${escHtml(b.name)}</div>
-          <div class="bill-meta">
-            <span>${escHtml(b.category)}</span>
-            <span class="bill-meta-dot"></span>
-            <span>${formatDate(b.date)}</span>
-            ${payBadge ? `<span class="bill-meta-dot"></span>${payBadge}` : ''}
-          </div>
+  const editIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+  const recIcon  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>`;
+  const delIcon  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  const reactIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>`;
+
+  activeBills.sort(sortFn).forEach((b) => {
+    const color    = categoryColors[b.category] ?? '#059669';
+    const payBadge = b.paymentStatus === 'partial'
+      ? `<span class="bill-meta-dot"></span><span class="pay-badge pay-badge--partial">Noch ${fmt(b.amount - (b.paidAmount ?? 0))}</span>`
+      : '';
+
+    const li = document.createElement('li');
+    li.className    = 'bill-item';
+    li.dataset.name = b.name;
+    li.style.setProperty('--item-accent', color);
+    li.innerHTML = `
+      <div class="bill-icon">${categoryIcons[b.category] ?? categoryIcons.sonstiges}</div>
+      <div class="bill-info">
+        <div class="bill-name">${escHtml(b.name)}</div>
+        <div class="bill-meta">
+          <span>${escHtml(b.category)}</span>
+          <span class="bill-meta-dot"></span>
+          <span>${formatDate(b.date)}</span>
+          ${payBadge}
         </div>
-        <span class="bill-amount">${fmt(b.amount)}</span>
-        <button class="bill-pay" data-id="${b.id}" aria-label="Zahlung bearbeiten">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-          </svg>
-        </button>
-        ${b.receiptId ? `
-          <button class="bill-receipt" data-receipt="${b.receiptId}" data-name="${escHtml(b.name)}" aria-label="Beleg anzeigen">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
-              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-            </svg>
-          </button>` : ''}
-        <button class="bill-delete" data-id="${b.id}" aria-label="Loeschen">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      `;
-      list.appendChild(li);
-    });
+      </div>
+      <span class="bill-amount">${fmt(b.amount)}</span>
+      <button class="bill-pay" data-id="${b.id}" aria-label="Bearbeiten">${editIcon}</button>
+      ${b.receiptId ? `<button class="bill-receipt" data-receipt="${b.receiptId}" data-name="${escHtml(b.name)}" aria-label="Beleg anzeigen">${recIcon}</button>` : ''}
+      <button class="bill-delete" data-id="${b.id}" aria-label="Loeschen">${delIcon}</button>
+    `;
+    list.appendChild(li);
+  });
+
+  paidBills.sort(sortFn).forEach((b) => {
+    const li = document.createElement('li');
+    li.className    = 'bill-item bill-item--paid';
+    li.dataset.name = b.name;
+    li.innerHTML = `
+      <div class="bill-icon">${categoryIcons[b.category] ?? categoryIcons.sonstiges}</div>
+      <div class="bill-info">
+        <div class="bill-name">${escHtml(b.name)}</div>
+        <div class="bill-meta">
+          <span>${escHtml(b.category)}</span>
+          <span class="bill-meta-dot"></span>
+          <span>${formatDate(b.date)}</span>
+          <span class="bill-meta-dot"></span>
+          <span class="pay-badge pay-badge--full">Bezahlt</span>
+        </div>
+      </div>
+      <span class="bill-amount">${fmt(b.amount)}</span>
+      <button class="bill-pay" data-id="${b.id}" aria-label="Bearbeiten">${editIcon}</button>
+      ${b.receiptId ? `<button class="bill-receipt" data-receipt="${b.receiptId}" data-name="${escHtml(b.name)}" aria-label="Beleg anzeigen">${recIcon}</button>` : ''}
+      <button class="bill-reactivate" data-id="${b.id}" aria-label="Reaktivieren">${reactIcon}</button>
+      <button class="bill-delete" data-id="${b.id}" aria-label="Loeschen">${delIcon}</button>
+    `;
+    paidList.appendChild(li);
+  });
 
   renderSpendingBars();
 }
@@ -329,6 +390,20 @@ function openPaymentModal(id) {
   paymentTargetId = id;
   paymentModalTitle.textContent = bill.name;
   paymentBillInfo.textContent   = `Gesamtbetrag: ${fmt(bill.amount)}`;
+
+  editBillName.value = bill.name;
+  editBillDate.value = bill.date || '';
+
+  editReceiptAction     = 'keep';
+  editNewFile           = null;
+  editReceiptFile.value = '';
+  if (bill.receiptId) {
+    editReceiptLabel.textContent    = 'Beleg vorhanden';
+    editReceiptRemove.style.display = '';
+  } else {
+    editReceiptLabel.textContent    = 'Kein Beleg';
+    editReceiptRemove.style.display = 'none';
+  }
 
   const status = bill.paymentStatus ?? 'unpaid';
   payOptFull.checked    = status === 'full';
@@ -369,9 +444,44 @@ paymentPaidInput.addEventListener('input', () => {
   if (bill) updatePaymentRemaining(bill.amount);
 });
 
-paymentSaveBtn.addEventListener('click', () => {
+// ── Edit modal receipt ─────────────────────────────────────────────────────────
+editReceiptFile.addEventListener('change', () => {
+  const file = editReceiptFile.files[0];
+  if (!file) return;
+  const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
+  if (!allowed.includes(file.type)) { showToast('Nur JPG, PNG oder PDF erlaubt.', 'warn'); return; }
+  editNewFile               = file;
+  editReceiptAction         = 'replace';
+  editReceiptLabel.textContent    = file.name;
+  editReceiptRemove.style.display = '';
+});
+
+editReceiptRemove.addEventListener('click', () => {
+  editReceiptAction         = 'remove';
+  editNewFile               = null;
+  editReceiptFile.value     = '';
+  editReceiptLabel.textContent    = 'Kein Beleg';
+  editReceiptRemove.style.display = 'none';
+});
+
+paymentSaveBtn.addEventListener('click', async () => {
   const bill = bills.find((b) => b.id === paymentTargetId);
   if (!bill) return;
+
+  const newName = editBillName.value.trim();
+  if (!newName) { shake(editBillName); showToast('Bitte einen Namen eingeben.', 'warn'); return; }
+  bill.name = newName;
+  bill.date = editBillDate.value || bill.date;
+
+  if (editReceiptAction === 'remove') {
+    if (bill.receiptId) await dbDelete(bill.receiptId);
+    bill.receiptId = null;
+  } else if (editReceiptAction === 'replace' && editNewFile) {
+    if (bill.receiptId) await dbDelete(bill.receiptId);
+    const newId = crypto.randomUUID();
+    await dbSave(newId, editNewFile);
+    bill.receiptId = newId;
+  }
 
   if (payOptFull.checked) {
     bill.paymentStatus = 'full';
@@ -389,7 +499,16 @@ paymentSaveBtn.addEventListener('click', () => {
 
   save(); render();
   closePaymentModal();
-  showToast('Zahlungsstatus aktualisiert.');
+
+  if (bill.paymentStatus === 'full') {
+    activeTab = 'paid';
+    tabBtns.forEach((b) => b.classList.toggle('active', b.dataset.tab === 'paid'));
+    list.style.display     = 'none';
+    paidList.style.display = '';
+    showToast('Rechnung als beglichen markiert.');
+  } else {
+    showToast('Ausgabe aktualisiert.');
+  }
 });
 
 // ── Receipt modal ──────────────────────────────────────────────────────────────

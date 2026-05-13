@@ -119,8 +119,16 @@
 
       <!-- Ausgaben Liste -->
       <section>
+        <div class="tab-nav" role="tablist" aria-label="Ausgaben-Register">
+          <button class="tab-btn active" data-tab="active" role="tab">
+            Aktiv <span class="tab-count" id="billCount">0</span>
+          </button>
+          <button class="tab-btn" data-tab="paid" role="tab">
+            Beglichen <span class="tab-count" id="paidCount">0</span>
+          </button>
+        </div>
         <div class="list-header">
-          <h2>Ausgaben</h2>
+          <h2 id="listHeading">Ausgaben</h2>
             <div class="list-controls">
             <div class="sort-group">
               <button class="btn-sort active" data-sort="date">
@@ -136,7 +144,6 @@
                 Name
               </button>
             </div>
-            <span class="badge" id="billCount">0</span>
           </div>
         </div>
         <ul class="bill-list" id="billList" aria-live="polite">
@@ -147,9 +154,19 @@
                 <rect x="9" y="3" width="6" height="4" rx="1"/>
                 <line x1="9" y1="12" x2="15" y2="12"/>
                 <line x1="9" y1="16" x2="13" y2="16"/>
-              </svg>  
+              </svg>
             </span>
             <span class="empty-text">Noch keine Ausgaben eingetragen.</span>
+          </li>
+        </ul>
+        <ul class="bill-list" id="paidList" aria-live="polite" style="display:none">
+          <li class="empty-state" id="paidEmptyState">
+            <span class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <span class="empty-text">Keine beglichenen Ausgaben.</span>
           </li>
         </ul>
       </section>
@@ -177,6 +194,28 @@
           </button>
         </div>
         <div class="payment-modal-body">
+          <div class="form-grid edit-fields-grid">
+            <div class="form-group">
+              <label for="editBillName">Name</label>
+              <input id="editBillName" type="text" placeholder="Ausgaben Name" />
+            </div>
+            <div class="form-group">
+              <label for="editBillDate">Datum</label>
+              <input id="editBillDate" type="date" />
+            </div>
+          </div>
+          <div class="edit-receipt-row" id="editReceiptRow">
+            <div class="edit-receipt-info">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              <span id="editReceiptLabel">Kein Beleg</span>
+            </div>
+            <div class="edit-receipt-btns">
+              <label for="editReceiptFile" class="btn-edit-receipt">+ Beleg</label>
+              <input type="file" id="editReceiptFile" accept="image/*,.pdf" hidden />
+              <button type="button" id="editReceiptRemove" class="btn-edit-receipt btn-edit-receipt--danger" style="display:none">Entfernen</button>
+            </div>
+          </div>
+          <div class="modal-section-divider"></div>
           <p class="payment-bill-total" id="paymentBillInfo"></p>
           <div class="payment-options">
             <label class="payment-option">
@@ -230,6 +269,13 @@
           </svg>
           CSV Export
         </button>
+        <!-- delete all modal-->
+        <div class="modal" id="deleteAllModal" role="dialog" 
+        arial-modal="true">
+        <div class="modal-content">
+          <p>Möchten Sie wirklich alle Einträge löschen"</p>
+          <div class="modal-actions">
+               <!-- Clear All Button -->
         <button class="btn-action btn-action--danger" id="btnClearAll">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
             <polyline points="3 6 5 6 21 6"/>
@@ -237,12 +283,21 @@
             <path d="M10 11v6M14 11v6"/>
             <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
           </svg>
-          Alle löschen
+          Ja, alle löschen
         </button>
+        <button class="btn-action" id="btnCancelDeleteAll">
+          Abbrechen
+        </button>
+          </div>
+        
+        </div>
       </div>
-      <p class="footer-copy">© 2026 eXpenceTracker &nbsp;·&nbsp; v1.0</p>
-      <p class="footer-copy">Entwickelt von <a href="https://github.com/SandrAdora" target="_blank" rel="noopener noreferrer">Sandra E.</a></p>
-      <p class="footer-copy"><a href="https://portfolio-1goj.onrender.com/" target="_blank" rel="noopener noreferrer">portfolio-1goj.onrender.com</a></p>
+
+     
+      </div>
+      <p class="footer-copy">© 2026 eXpenseTracker &nbsp;·&nbsp; v1.0</p>
+      <p class="footer-copy">Entwickelt von <a href="https://github.com/SandrAdora" target="_self" rel="noopener noreferrer">Sandra E.</a></p>
+      <p class="footer-copy"><a href="https://portfolio-1goj.onrender.com/" target="_self" rel="noopener noreferrer">Mein Portfolio</a></p>
     </footer>    
         <script src="/static/js/script.js" defer></script>
   </body>

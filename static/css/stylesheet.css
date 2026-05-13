@@ -1268,3 +1268,161 @@ section h2::before {
     display: none;
   }
 }
+
+/* ---------- Tabs ---------- */
+.tab-nav {
+  display: flex;
+  gap: .3rem;
+  margin-bottom: 1rem;
+  background: var(--clr-surface2);
+  border: 1px solid var(--clr-border2);
+  border-radius: 999px;
+  padding: .25rem;
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  padding: .42rem .75rem;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--clr-muted);
+  font-size: .73rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--t), color var(--t);
+  white-space: nowrap;
+}
+
+.tab-btn:hover:not(.active) { color: var(--clr-text); }
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--clr-accent), #059669);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,200,140,.3);
+}
+
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 .35rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,.22);
+  font-size: .6rem;
+  font-weight: 800;
+}
+
+.tab-btn:not(.active) .tab-count {
+  background: var(--clr-border2);
+  color: var(--clr-muted);
+}
+
+/* ---------- Paid bill item ---------- */
+.bill-item--paid {
+  --item-accent: #6b7280;
+  opacity: .68;
+}
+
+.bill-item--paid:hover { opacity: 1; }
+
+/* ---------- Reactivate button ---------- */
+.bill-reactivate {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--clr-muted);
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  opacity: 1;
+  transition: color var(--t), background var(--t), transform var(--t);
+}
+
+.bill-reactivate:hover {
+  color: var(--clr-accent);
+  background: rgba(0,200,140,.12);
+  transform: scale(1.15);
+}
+
+/* ---------- Edit fields in modal ---------- */
+.edit-fields-grid { margin-bottom: .75rem; }
+
+.edit-receipt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .55rem .75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--clr-border2);
+  background: var(--clr-surface2);
+}
+
+.edit-receipt-info {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .76rem;
+  color: var(--clr-muted);
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.edit-receipt-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edit-receipt-btns {
+  display: flex;
+  gap: .35rem;
+  flex-shrink: 0;
+}
+
+.btn-edit-receipt {
+  display: inline-flex;
+  align-items: center;
+  gap: .28rem;
+  padding: .28rem .65rem;
+  border-radius: 999px;
+  border: 1px solid var(--clr-border2);
+  background: transparent;
+  color: var(--clr-muted);
+  font-size: .69rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color var(--t), color var(--t), background var(--t);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn-edit-receipt:hover {
+  border-color: var(--clr-accent);
+  color: var(--clr-accent);
+  background: rgba(0,200,140,.07);
+}
+
+.btn-edit-receipt--danger:hover {
+  border-color: var(--clr-danger);
+  color: var(--clr-danger);
+  background: rgba(248,113,113,.07);
+}
+
+/* ---------- Modal section divider ---------- */
+.modal-section-divider {
+  height: 1px;
+  background: var(--clr-border2);
+  margin: .95rem 0 .85rem;
+}

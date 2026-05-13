@@ -1,4 +1,4 @@
-const CACHE = 'expencetrack-v3';
+const CACHE = 'expensetrack-v4';
 const ASSETS = [
   '/',
   '/static/css/stylesheet.css',
