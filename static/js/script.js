@@ -73,6 +73,24 @@ async function dbDelete(id) {
   });
 }
 
+async function dbGetAll() {
+  const db = await getDB();
+  return new Promise((res, rej) => {
+    const tx  = db.transaction(DB_STORE, 'readonly');
+    const req = tx.objectStore(DB_STORE).getAll();
+    req.onsuccess = () => res(req.result);
+    req.onerror   = rej;
+  });
+}
+async function dbClear() {
+  const db = await getDB();
+  return new Promise((res, rej) => {
+    const tx = db.transaction(DB_STORE, 'readwrite');
+    tx.objectStore(DB_STORE).clear();
+    tx.oncomplete = res; tx.onerror = rej;
+  });
+}
+
 // DB beim Start vorab öffnen damit der erste Speichervorgang sofort geht
 getDB().catch(() => {});
 
@@ -92,6 +110,8 @@ const submitBtn          = form.querySelector('.btn-primary');
 const headerCount        = document.getElementById('headerCount');
 const headerTotal        = document.getElementById('headerTotal');
 const btnExport          = document.getElementById('btnExport');
+const btnBackupExport    = document.getElementById('btnBackupExport');
+const btnBackupImport    = document.getElementById('btnBackupImport');
 const btnClearAll        = document.getElementById('btnClearAll');
 const sortBtns           = document.querySelectorAll('.btn-sort');
 const themeToggle        = document.getElementById('themeToggle');
@@ -579,6 +599,55 @@ btnExport.addEventListener('click', () => {
   });
   link.click();
   showToast('CSV exportiert');
+});
+
+// ── Backup Export (JSON + Belege) ──────────────────────────────────────────────
+btnBackupExport.addEventListener('click', async () => {
+  if (!bills.length) { showToast('Keine Daten zum Sichern.', 'warn'); return; }
+  showToast('Backup wird erstellt…', 'info');
+  const receipts = await dbGetAll();
+  const receiptMap = {};
+  await Promise.all(receipts.map(async (r) => {
+    if (r.file instanceof Blob || r.file instanceof File) {
+      receiptMap[r.id] = await new Promise((res) => {
+        const reader = new FileReader();
+        reader.onload = () => res({ dataUrl: reader.result, name: r.file.name, type: r.file.type });
+        reader.readAsDataURL(r.file);
+      });
+    }
+  }));
+  const backup = { version: 1, date: new Date().toISOString(), bills, receipts: receiptMap };
+  const link = Object.assign(document.createElement('a'), {
+    href:     'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(backup)),
+    download: `ausgaben_backup_${new Date().toISOString().split('T')[0]}.json`,
+  });
+  link.click();
+  showToast('Backup exportiert');
+});
+
+// ── Backup Import (JSON wiederherstellen) ──────────────────────────────────────
+btnBackupImport.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.value = '';
+  const text = await file.text();
+  let backup;
+  try { backup = JSON.parse(text); } catch { showToast('Ungültige Backup-Datei.', 'danger'); return; }
+  if (!backup.bills || !Array.isArray(backup.bills)) { showToast('Ungültiges Backup-Format.', 'danger'); return; }
+  if (!confirm(`Backup vom ${formatDate(backup.date?.split('T')[0] ?? '')} mit ${backup.bills.length} Ausgaben wiederherstellen?\n\nDie vorhandenen Daten werden dabei überschrieben.`)) return;
+  await dbClear();
+  if (backup.receipts) {
+    await Promise.all(Object.entries(backup.receipts).map(([id, r]) =>
+      fetch(r.dataUrl).then((res) => res.blob()).then((blob) => {
+        const f = new File([blob], r.name, { type: r.type });
+        return dbSave(id, f);
+      })
+    ));
+  }
+  bills = backup.bills;
+  save();
+  render();
+  showToast(`${bills.length} Ausgaben wiederhergestellt`);
 });
 
 // ── Clear all ──────────────────────────────────────────────────────────────────
