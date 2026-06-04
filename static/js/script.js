@@ -123,6 +123,7 @@ const paidCount          = document.getElementById('paidCount');
 const tabBtns            = document.querySelectorAll('.tab-btn');
 const editBillName       = document.getElementById('editBillName');
 const editBillDate       = document.getElementById('editBillDate');
+const editBillCategory   = document.getElementById('editBillCategory');
 const editReceiptLabel   = document.getElementById('editReceiptLabel');
 const editReceiptFile    = document.getElementById('editReceiptFile');
 const editReceiptRemove  = document.getElementById('editReceiptRemove');
@@ -406,8 +407,9 @@ function openPaymentModal(id) {
   paymentModalTitle.textContent = bill.name;
   paymentBillInfo.textContent   = `Gesamtbetrag: ${fmt(bill.amount)}`;
 
-  editBillName.value = bill.name;
-  editBillDate.value = bill.date || '';
+  editBillName.value     = bill.name;
+  editBillDate.value     = bill.date || '';
+  editBillCategory.value = bill.category || 'sonstiges';
 
   editReceiptAction     = 'keep';
   editNewFile           = null;
@@ -485,8 +487,9 @@ paymentSaveBtn.addEventListener('click', async () => {
 
   const newName = editBillName.value.trim();
   if (!newName) { shake(editBillName); showToast('Bitte einen Namen eingeben.', 'warn'); return; }
-  bill.name = newName;
-  bill.date = editBillDate.value || bill.date;
+  bill.name     = newName;
+  bill.date     = editBillDate.value || bill.date;
+  bill.category = editBillCategory.value;
 
   if (editReceiptAction === 'remove') {
     if (bill.receiptId) await dbDelete(bill.receiptId);
