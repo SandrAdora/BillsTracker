@@ -1325,6 +1325,48 @@ section h2::before {
   color: var(--clr-muted);
 }
 
+/* ---------- Category header ---------- */
+.bill-category-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem .4rem .18rem;
+  margin-top: .25rem;
+  list-style: none;
+}
+
+.bill-category-header:first-child { margin-top: 0; padding-top: .1rem; }
+
+.bill-category-header-icon {
+  flex-shrink: 0;
+  opacity: .65;
+  display: flex;
+  align-items: center;
+}
+
+.bill-category-header-name {
+  flex: 1;
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  color: var(--clr-muted);
+}
+
+.bill-category-header-count {
+  font-size: .6rem;
+  font-weight: 800;
+  color: var(--clr-muted);
+  background: var(--clr-surface2);
+  border: 1px solid var(--clr-border2);
+  border-radius: 999px;
+  padding: .1rem .44rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+.bill-category-header.hidden { display: none; }
+
 /* ---------- Paid bill item ---------- */
 .bill-item--paid {
   --item-accent: #6b7280;

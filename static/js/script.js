@@ -12,11 +12,16 @@ const categoryIcons = {
   freizeit:     SVG('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'),
   technik:      SVG('<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>'),
   sonstiges:    SVG('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>'),
+  reisen:       SVG('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>'),
+  shoppen:      SVG('<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>'),
+  schenkung:    SVG('<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>'),
+  investitionen: SVG('<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="2 20 22 20"/>'),
 };
 
 const categoryColors = {
   wohnen: '#00c896', lebensmittel: '#34d399', transport: '#2dd4bf',
   gesundheit: '#6ee7b7', freizeit: '#10b981', technik: '#5eead4', sonstiges: '#059669',
+  reisen: '#06b6d4', shoppen: '#a78bfa', schenkung: '#f472b6', investitionen: '#fbbf24',
 };
 
 // ── State ──────────────────────────────────────────────────────────────────────
@@ -252,6 +257,15 @@ searchInput.addEventListener('input', () => {
     ul.querySelectorAll('.bill-item').forEach((item) => {
       item.classList.toggle('hidden', !item.dataset.name.toLowerCase().includes(q));
     });
+    ul.querySelectorAll('.bill-category-header').forEach((hdr) => {
+      let el = hdr.nextElementSibling;
+      let anyVisible = false;
+      while (el && el.classList.contains('bill-item')) {
+        if (!el.classList.contains('hidden')) { anyVisible = true; break; }
+        el = el.nextElementSibling;
+      }
+      hdr.classList.toggle('hidden', !anyVisible);
+    });
   });
 });
 
@@ -310,8 +324,8 @@ function render() {
   headerTotal.textContent  = fmt(allSum);
   animateTotal(allSum);
 
-  list.querySelectorAll('.bill-item').forEach((el) => el.remove());
-  paidList.querySelectorAll('.bill-item').forEach((el) => el.remove());
+  list.querySelectorAll('.bill-item, .bill-category-header').forEach((el) => el.remove());
+  paidList.querySelectorAll('.bill-item, .bill-category-header').forEach((el) => el.remove());
 
   const sortFn = (a, b) => {
     if (sortBy === 'amount') return b.amount - a.amount;
@@ -319,64 +333,65 @@ function render() {
     return b.date.localeCompare(a.date);
   };
 
-  const editIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
-  const recIcon  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>`;
-  const delIcon  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  const editIcon  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+  const recIcon   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>`;
+  const delIcon   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
   const reactIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>`;
 
-  activeBills.sort(sortFn).forEach((b) => {
-    const color    = categoryColors[b.category] ?? '#059669';
-    const payBadge = b.paymentStatus === 'partial'
-      ? `<span class="bill-meta-dot"></span><span class="pay-badge pay-badge--partial">Noch ${fmt(b.amount - (b.paidAmount ?? 0))}</span>`
-      : '';
+  const renderGrouped = (billsArr, container, isPaid) => {
+    const groups = {}, order = [];
+    [...billsArr].sort(sortFn).forEach((b) => {
+      if (!groups[b.category]) { groups[b.category] = []; order.push(b.category); }
+      groups[b.category].push(b);
+    });
+    order.sort((a, b) => groups[b].reduce((s,x) => s + x.amount, 0) - groups[a].reduce((s,x) => s + x.amount, 0));
 
-    const li = document.createElement('li');
-    li.className    = 'bill-item';
-    li.dataset.name = b.name;
-    li.style.setProperty('--item-accent', color);
-    li.innerHTML = `
-      <div class="bill-icon">${categoryIcons[b.category] ?? categoryIcons.sonstiges}</div>
-      <div class="bill-info">
-        <div class="bill-name">${escHtml(b.name)}</div>
-        <div class="bill-meta">
-          <span>${escHtml(b.category)}</span>
-          <span class="bill-meta-dot"></span>
-          <span>${formatDate(b.date)}</span>
-          ${payBadge}
-        </div>
-      </div>
-      <span class="bill-amount">${fmt(b.amount)}</span>
-      <button class="bill-pay" data-id="${b.id}" aria-label="Bearbeiten">${editIcon}</button>
-      ${b.receiptId ? `<button class="bill-receipt" data-receipt="${b.receiptId}" data-name="${escHtml(b.name)}" aria-label="Beleg anzeigen">${recIcon}</button>` : ''}
-      <button class="bill-delete" data-id="${b.id}" aria-label="Loeschen">${delIcon}</button>
-    `;
-    list.appendChild(li);
-  });
+    order.forEach((cat) => {
+      const color = categoryColors[cat] ?? '#059669';
+      const hdr   = document.createElement('li');
+      hdr.className = 'bill-category-header';
+      hdr.innerHTML = `
+        <span class="bill-category-header-icon" style="color:${color}">${categoryIcons[cat] ?? categoryIcons.sonstiges}</span>
+        <span class="bill-category-header-name">${escHtml(cat)}</span>
+        <span class="bill-category-header-count">${groups[cat].length}</span>
+      `;
+      container.appendChild(hdr);
 
-  paidBills.sort(sortFn).forEach((b) => {
-    const li = document.createElement('li');
-    li.className    = 'bill-item bill-item--paid';
-    li.dataset.name = b.name;
-    li.innerHTML = `
-      <div class="bill-icon">${categoryIcons[b.category] ?? categoryIcons.sonstiges}</div>
-      <div class="bill-info">
-        <div class="bill-name">${escHtml(b.name)}</div>
-        <div class="bill-meta">
-          <span>${escHtml(b.category)}</span>
-          <span class="bill-meta-dot"></span>
-          <span>${formatDate(b.date)}</span>
-          <span class="bill-meta-dot"></span>
-          <span class="pay-badge pay-badge--full">Bezahlt</span>
-        </div>
-      </div>
-      <span class="bill-amount">${fmt(b.amount)}</span>
-      <button class="bill-pay" data-id="${b.id}" aria-label="Bearbeiten">${editIcon}</button>
-      ${b.receiptId ? `<button class="bill-receipt" data-receipt="${b.receiptId}" data-name="${escHtml(b.name)}" aria-label="Beleg anzeigen">${recIcon}</button>` : ''}
-      <button class="bill-reactivate" data-id="${b.id}" aria-label="Reaktivieren">${reactIcon}</button>
-      <button class="bill-delete" data-id="${b.id}" aria-label="Loeschen">${delIcon}</button>
-    `;
-    paidList.appendChild(li);
-  });
+      groups[cat].forEach((b) => {
+        const payBadge = !isPaid && b.paymentStatus === 'partial'
+          ? `<span class="bill-meta-dot"></span><span class="pay-badge pay-badge--partial">Noch ${fmt(b.amount - (b.paidAmount ?? 0))}</span>`
+          : '';
+        const paidBadge = isPaid
+          ? `<span class="bill-meta-dot"></span><span class="pay-badge pay-badge--full">Bezahlt</span>`
+          : '';
+
+        const li = document.createElement('li');
+        li.className    = isPaid ? 'bill-item bill-item--paid' : 'bill-item';
+        li.dataset.name = b.name;
+        if (!isPaid) li.style.setProperty('--item-accent', color);
+
+        li.innerHTML = `
+          <div class="bill-icon">${categoryIcons[b.category] ?? categoryIcons.sonstiges}</div>
+          <div class="bill-info">
+            <div class="bill-name">${escHtml(b.name)}</div>
+            <div class="bill-meta">
+              <span>${formatDate(b.date)}</span>
+              ${payBadge}${paidBadge}
+            </div>
+          </div>
+          <span class="bill-amount">${fmt(b.amount)}</span>
+          <button class="bill-pay" data-id="${b.id}" aria-label="Bearbeiten">${editIcon}</button>
+          ${b.receiptId ? `<button class="bill-receipt" data-receipt="${b.receiptId}" data-name="${escHtml(b.name)}" aria-label="Beleg anzeigen">${recIcon}</button>` : ''}
+          ${isPaid ? `<button class="bill-reactivate" data-id="${b.id}" aria-label="Reaktivieren">${reactIcon}</button>` : ''}
+          <button class="bill-delete" data-id="${b.id}" aria-label="Loeschen">${delIcon}</button>
+        `;
+        container.appendChild(li);
+      });
+    });
+  };
+
+  renderGrouped(activeBills, list, false);
+  renderGrouped(paidBills, paidList, true);
 
   renderSpendingBars();
 }
