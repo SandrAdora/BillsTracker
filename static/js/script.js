@@ -502,14 +502,19 @@ paymentSaveBtn.addEventListener('click', async () => {
     bill.paymentStatus = 'full';
     bill.paidAmount    = bill.amount;
   } else {
-    const paid = parseFloat(paymentPaidInput.value);
-    if (isNaN(paid) || paid < 0) {
-      shake(paymentPaidInput);
-      showToast('Bitte einen gültigen Betrag eingeben.', 'warn');
-      return;
+    const raw = paymentPaidInput.value.trim();
+    if (raw !== '') {
+      const paid = parseFloat(raw);
+      if (isNaN(paid) || paid < 0) {
+        shake(paymentPaidInput);
+        showToast('Bitte einen gültigen Betrag eingeben.', 'warn');
+        return;
+      }
+      bill.paymentStatus = paid >= bill.amount ? 'full' : 'partial';
+      bill.paidAmount    = paid;
+    } else {
+      bill.paymentStatus = 'partial';
     }
-    bill.paymentStatus = paid >= bill.amount ? 'full' : 'partial';
-    bill.paidAmount    = paid;
   }
 
   save(); render();
