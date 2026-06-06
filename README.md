@@ -2,7 +2,7 @@
 This mini Project tracks your expenses, bills, payments and future transactions.
 The app calculates the amount of all inserted expenses.
 
-Live Demo: [BillsTracker]( https://expencetracker-dv9r.onrender.com)
+Live Demo: [BillsTracker]( https://expensetracker-rw1a.onrender.com )
 
 # Requirements
 There are no requirements needed for the use of this app. Just open the website and start using it
