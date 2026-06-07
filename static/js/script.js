@@ -16,12 +16,14 @@ const categoryIcons = {
   shoppen:      SVG('<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>'),
   schenkung:    SVG('<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>'),
   investitionen: SVG('<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="2 20 22 20"/>'),
+  auto:          SVG('<path d="M5 16L3 12V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5l-2 4z"/><circle cx="7.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>'),
 };
 
 const categoryColors = {
-  wohnen: '#00c896', lebensmittel: '#34d399', transport: '#2dd4bf',
-  gesundheit: '#6ee7b7', freizeit: '#10b981', technik: '#5eead4', sonstiges: '#059669',
+  wohnen: '#00b4c8aa', lebensmittel: '#34d399', transport: '#d42d49',
+  gesundheit: '#6e9ee7', freizeit: '#9ab910', technik: '#5eead4', sonstiges: '#059669',
   reisen: '#06b6d4', shoppen: '#a78bfa', schenkung: '#f472b6', investitionen: '#fbbf24',
+  auto: '#f5590b',
 };
 
 // ── State ──────────────────────────────────────────────────────────────────────
