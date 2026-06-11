@@ -1,0 +1,184 @@
+================================================================
+  STEUERLICHE ABSETZBARKEIT – NACHWEISPFLICHT ÜBERSICHT
+  Stand: Steuerjahr 2025
+================================================================
+
+WICHTIGER GRUNDSATZ
+-------------------
+Seit 2017 gilt die Belegvorhaltepflicht (nicht mehr Belegvorlagepflicht).
+Quittungen müssen der Steuererklärung NICHT mehr beigelegt werden,
+aber aufbewahrt werden (seit 2025: 8 Jahre), da das Finanzamt sie
+jederzeit nachträglich anfordern kann.
+
+Legende:  JA = Belege aufbewahren (bei Nachfrage vorlegen)
+          NEIN = kein Nachweis erforderlich
+          PAUSCHAL = Pauschalbetrag, keine Einzelbelege nötig
+
+
+================================================================
+  STUDENT
+================================================================
+
+Semesterbeiträge / Studiengebühren
+  Nachweis: JA
+  Details:  Bescheid oder Rechnung der Hochschule aufbewahren
+            Max. absetzbar (Erststudium/Sonderausgaben): 6.000 EUR/Jahr
+
+Prüfungsgebühren
+  Nachweis: JA
+  Details:  Quittung / Zahlungsbeleg aufbewahren
+
+Arbeitsmaterialien (Laptop, PC, iPad, Drucker, Bücher, Kurse)
+  Nachweis: JA
+  Details:  Kaufquittungen und Rechnungen aufbewahren
+            Geräte über 800 EUR netto ggf. auf mehrere Jahre verteilen
+
+Werbungskosten Zweitstudium (z. B. Master) – Verlustvortrag
+  Nachweis: JA
+  Details:  Alle Belege für spätere Veranlagungsjahre aufbewahren
+
+Fahrtkosten zur Uni
+  Nachweis: PAUSCHAL
+  Details:  Entfernungspauschale – keine Tankquittungen nötig
+            Nur Entfernung (km) und Fahrtage angeben
+
+Auslandssemester
+  Nachweis: JA
+  Details:  Flugtickets, Unterkunftsbelege,
+            Immatrikulationsbescheinigung aufbewahren
+
+Zweitwohnsitz wegen Uni
+  Nachweis: JA
+  Details:  Mietvertrag, Mietquittungen und
+            Immatrikulationsbescheinigung aufbewahren
+
+
+================================================================
+  ANGESTELLTER
+================================================================
+
+Entfernungspauschale (Weg zur Arbeit)
+  Nachweis: PAUSCHAL
+  Details:  Keine Tankbelege oder Tickets erforderlich
+            Erste 20 km: 0,30 EUR/km | ab 21. km: 0,38 EUR/km
+            Nur Entfernung und Arbeitstage angeben
+
+Fahrtkosten ÖPNV / Monatsticket
+  Nachweis: JA (nur wenn tatsächliche Kosten > Pauschale)
+  Details:  Tickets oder Jahresabo-Rechnung aufbewahren
+
+Homeoffice-Pauschale (6 EUR/Tag, max. 1.260 EUR/Jahr = 210 Tage)
+  Nachweis: PAUSCHAL
+  Details:  Keine Rechnungen für Strom/Heizung/Internet nötig
+            Nur Anzahl der Homeoffice-Tage dokumentieren (z. B. Kalender)
+
+Häusliches Arbeitszimmer (Jahrespauschale bis 1.260 EUR)
+  Nachweis: PAUSCHAL
+  Details:  Keine Einzelbelege für die Pauschale
+            Bei anteiliger Miete: Mietvertrag + Grundriss aufbewahren
+
+Reisekosten (Dienstreisen, Fortbildungen, Kundenbesuche)
+  Nachweis: JA / PAUSCHAL
+  Details:  Fahrtkosten und Übernachtungen: JA (Belege aufbewahren)
+            Verpflegungspauschalen: PAUSCHAL (kein Kassenbon nötig)
+
+Berufsbekleidung (Kauf und Reinigung)
+  Nachweis: JA
+  Details:  Quittungen für typische Berufskleidung aufbewahren
+            (z. B. Sicherheitsschuhe, Arztkittel, Uniform)
+
+Telefon- und Internetkosten (pauschal 20 %, max. 20 EUR/Monat)
+  Nachweis: PAUSCHAL
+  Details:  Monatsrechnung aufbewahren
+            Einzelnachweise beruflicher Gespräche nicht erforderlich
+
+Kontoführungsgebühren (16 EUR/Jahr)
+  Nachweis: NEIN
+  Details:  Pauschalbetrag – kein Nachweis erforderlich
+
+
+================================================================
+  RENTNER
+================================================================
+
+Werbungskostenpauschale (102 EUR/Jahr)
+  Nachweis: NEIN
+  Details:  Wird automatisch angerechnet
+
+Medizinische Behandlungen
+(Zuzahlungen, Medikamente, Zahnersatz, Brille, Hörgerät,
+ orthopädische Hilfsmittel)
+  Nachweis: JA
+  Details:  Rechnungen, Rezepte und Kassenbons aufbewahren
+            Nur der Betrag über der zumutbaren Belastung wird anerkannt
+
+Arzt- und Fahrtkosten (Arzt, Therapeut, Apotheke)
+  Nachweis: JA / PAUSCHAL
+  Details:  30 Cent pro km (pauschal)
+            Terminbelege oder Fahrtenbuch zur Dokumentation empfohlen
+
+Kur- und Klinikaufenthalte
+  Nachweis: JA
+  Details:  Ärztliches Attest ZWINGEND erforderlich
+            Zusätzlich Rechnungen der Einrichtung aufbewahren
+
+Pflegekosten (ambulanter Pflegedienst / Pflegeheim)
+  Nachweis: JA
+  Details:  Rechnungen des Pflegedienstes aufbewahren
+            Pflegegradbescheid der Pflegekasse bereithalten
+
+Behindertenpauschalbetrag (gestaffelt je nach GdB)
+  Nachweis: PAUSCHAL
+  Details:  Feststellungsbescheid des Versorgungsamts genügt
+            Keine Einzelnachweise erforderlich
+            Pauschbeträge: 384 EUR (GdB 20) bis 7.400 EUR (blind/hilflos)
+
+
+================================================================
+  PFLICHTVERSICHERUNGEN & SONSTIGES
+================================================================
+
+Kranken- und Pflegeversicherung
+  Nachweis: JA (meist automatisch)
+  Details:  Jahresbescheinigung der Versicherung aufbewahren
+            Wird oft automatisch via ELSTER ans Finanzamt übermittelt
+
+Weitere Versicherungen (Haftpflicht, KFZ-Haftpflicht, Unfall)
+  Nachweis: JA
+  Details:  Beitragsbelege / Jahresrechnung aufbewahren
+
+Kirchensteuer
+  Nachweis: NEIN / AUTOMATISCH
+  Details:  Wird automatisch vom Finanzamt aus der
+            Lohnsteuerbescheinigung übernommen
+
+Spenden bis 300 EUR
+  Nachweis: PAUSCHAL
+  Details:  Kontoauszug reicht als vereinfachter Nachweis
+
+Spenden über 300 EUR
+  Nachweis: JA
+  Details:  Offizielle Zuwendungsbestätigung der Organisation
+            ist zwingend erforderlich
+
+
+================================================================
+  ZUSAMMENFASSUNG
+================================================================
+
+Ohne Belege absetzbar (reine Pauschalen):
+  - Entfernungspauschale (nur km + Tage angeben)
+  - Homeoffice-Pauschale (nur Tage angeben)
+  - Kontoführungsgebühren (16 EUR fix)
+  - Werbungskostenpauschale Rentner (102 EUR fix)
+  - Behindertenpauschalbetrag (Bescheid genügt)
+  - Telefon/Internet (20 % der Rechnung, max. 20 EUR/Monat)
+  - Kirchensteuer (automatisch erfasst)
+  - Spenden bis 300 EUR (Kontoauszug reicht)
+
+Bei allem anderen: Belege AUFBEWAHREN (8 Jahre),
+nicht einschicken – aber für Rückfragen bereithalten.
+
+================================================================
+  Quellen: finanztip.de | lohnsteuer-kompakt.de | steuern.de
+================================================================

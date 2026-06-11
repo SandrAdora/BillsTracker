@@ -33,6 +33,19 @@
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
         </svg>
       </button>
+      <button class="info-toggle" id="infoToggle" aria-label="Steuerlich absetzbar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="24" height="24">
+          <!-- Outer Circle -->
+          <circle cx="12" cy="12" r="10" fill="#2196F3" />
+          <!-- Inner Circle --->
+           <circle cx="12" cy="8" r="1.5" fill="white" /> 
+           <!-- "i" stem-->
+            <rect x="11" y="11" width="2" height="6" rx="1" fill="white" />
+
+        </svg>
+      
+
+      </button>
 
         <h1>e<span>X</span>penseTracker</h1>
       <p class="subtitle">Your smart finance tracker</p>
@@ -81,15 +94,18 @@
                 <option value="sonstiges">Sonstiges</option>
                 <option value="wohnen">Wohnen</option>
                 <option value="lebensmittel">Lebensmittel</option>
-                <option value="transport">Transport</option>
+                <option value="transport">Fahrtkosten</option>
                 <option value="gesundheit">Gesundheit</option>
                 <option value="freizeit">Freizeit</option>
-                <option value="technik">Technik</option>
+                <option value="technik">Fahrtkosten</option>
                 <option value="reisen">Reisen</option>
                 <option value="shoppen">Shoppen</option>
                 <option value="schenkung">Schenkung/Geburtstage</option>
-                <option value="investitionen">Investitionen</option>
+                <option value="investitionen">Investition</option>
                 <option value="urlaub">Urlaub</option>
+                <option value="fahrzeug">Fahrzeug</option>
+                <option value="uni">Uni/Bildung</option>
+                <option value="versicherung">Versicherung</option>
               </select>
             </div>
             <div class="form-group">
@@ -125,15 +141,17 @@
           </button>
         </form>
       </section>
-
       <!-- Ausgaben Liste -->
       <section>
         <div class="tab-nav" role="tablist" aria-label="Ausgaben-Register">
           <button class="tab-btn active" data-tab="active" role="tab">
-            Aktiv <span class="tab-count" id="billCount">0</span>
+            Offen <span class="tab-count" id="billCount">0</span>
           </button>
           <button class="tab-btn" data-tab="paid" role="tab">
-            Beglichen <span class="tab-count" id="paidCount">0</span>
+            Abgeschlossen <span class="tab-count" id="paidCount">0</span>
+          </button>
+          <button class="tab-btn" data-tab="tax" role="tab">
+            Steuerlich Absetzbar <span class="tab-count" id="taxCount">0</span>
           </button>
         </div>
         <div class="list-header">
@@ -179,17 +197,13 @@
           </li>
         </ul>
       </section>
-
       <!-- Gesamtsumme -->
       <section class="section-total">
         <p class="total-label">Gesamtausgaben</p>
         <p class="total-amount" id="totalAmount">€ 0,00</p>
         <p class="total-hint">Alle eingetragenen Ausgaben zusammen</p>
       </section>
-
     </main>
-
-
     <!-- Payment Modal -->
     <div class="payment-modal" id="paymentModal" role="dialog" aria-modal="true">
       <div class="payment-modal-backdrop" id="paymentBackdrop"></div>
@@ -227,6 +241,9 @@
                 <option value="schenkung">Schenkung/Geburtstage</option>
                 <option value="investitionen">Investitionen</option>
                 <option value="urlaub">Urlaub</option>
+                <option value="fahrzeug">Fahrzeug</option> 
+                 <option value="uni">Uni/Bildung</option>
+                <option value="versicherung">Versicherung</option>
               </select>
             </div>
           </div>
@@ -326,12 +343,12 @@
           Alle löschen
         </button>
       </div>
-      <p class="footer-copy">© 2026 eXpenseTracker &nbsp;·&nbsp; v1.0</p>   
+      <p class="footer-copy">© 2026 eXpenseTracker &nbsp;·&nbsp; v2.0</p>   
     <span><p class="footer-copy">
       <i class="fa-brands fa-github">   <a href="https://github.com/SandrAdora" aria-label="GitHub" target="_self" rel="noopener noreferrer"></i></p>
     </a></span>
     
-    <p class="footer-copy">Entwickelt von <a href="https://portfolio-1goj.onrender.com" target="_self" rel="noopener noreferrer">Sandra E.</a></p>
+    <p class="footer-copy">Entwickelt von <a href="https://portfolio-1goj.onrender.com" target="_self" rel="noopener noreferrer">Sandra</a></p>
     </footer>    
         <script src="/static/js/script.js" defer></script>
   </body>

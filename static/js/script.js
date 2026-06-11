@@ -16,14 +16,16 @@ const categoryIcons = {
   shoppen:      SVG('<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>'),
   schenkung:    SVG('<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>'),
   investitionen: SVG('<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="2 20 22 20"/>'),
-  auto:          SVG('<path d="M5 16L3 12V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5l-2 4z"/><circle cx="7.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>'),
+  fahrzeug:      SVG('<path d="M5 16L3 12V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5l-2 4z"/><circle cx="7.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>'),
+  bildung:          SVG('<path d="M12 3L2 8h2v9H2v2h20v-2h-2V8h2L12 3zm-4 9H6V9h2v3zm4 0h-2V9h2v3zm4 0h-2V9h2v3z"/>'),   
+  versicherung: SVG('<path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.35C17.25 21.15 21 16.25 21 11V6L12 2zm0 4l6 2.73V11c0 3.5-2.33 6.79-6 8.2C8.33 17.79 6 14.5 6 11V8.73L12 6z"/>'),
 };
 
 const categoryColors = {
   wohnen: '#00b4c8aa', lebensmittel: '#34d399', transport: '#d42d49',
   gesundheit: '#6e9ee7', freizeit: '#9ab910', technik: '#5eead4', sonstiges: '#059669',
   reisen: '#06b6d4', shoppen: '#a78bfa', schenkung: '#f472b6', investitionen: '#fbbf24',
-  auto: '#f5590b',
+  fahrzeug: '#f5590b',
 };
 
 // ── State ──────────────────────────────────────────────────────────────────────
@@ -39,6 +41,8 @@ let editNewFile       = null;
 const DB_NAME  = 'expencetracker_db';
 const DB_STORE = 'receipts';
 
+
+// manages connection to an indexdb -> browser database for storing data locally 
 let _db = null;
 function getDB() {
   if (_db) return Promise.resolve(_db);
@@ -149,6 +153,7 @@ const editBillCategory   = document.getElementById('editBillCategory');
 const editReceiptLabel   = document.getElementById('editReceiptLabel');
 const editReceiptFile    = document.getElementById('editReceiptFile');
 const editReceiptRemove  = document.getElementById('editReceiptRemove');
+const taxCount             = document.getElementById('taxCount');
 
 // ── Theme ──────────────────────────────────────────────────────────────────────
 (function initTheme() {
@@ -168,6 +173,12 @@ addRipple(submitBtn);
 render();
 registerSW();
 
+
+//__Tax relatable ________________________________________________________________
+function taxRelatable(bill)
+{
+
+}
 // ── Tabs ───────────────────────────────────────────────────────────────────────
 tabBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
