@@ -17,7 +17,8 @@ const categoryIcons = {
   schenkung:    SVG('<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>'),
   investitionen: SVG('<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="2 20 22 20"/>'),
   fahrzeug:      SVG('<path d="M5 16L3 12V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5l-2 4z"/><circle cx="7.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>'),
-  bildung:          SVG('<path d="M12 3L2 8h2v9H2v2h20v-2h-2V8h2L12 3zm-4 9H6V9h2v3zm4 0h-2V9h2v3zm4 0h-2V9h2v3z"/>'),   
+  uni:          SVG('<path d="M12 3L2 8h2v9H2v2h20v-2h-2V8h2L12 3zm-4 9H6V9h2v3zm4 0h-2V9h2v3zm4 0h-2V9h2v3z"/>'),   
+  weiter_bildung:          SVG('<path d="M12 3L2 8h2v9H2v2h20v-2h-2V8h2L12 3zm-4 9H6V9h2v3zm4 0h-2V9h2v3zm4 0h-2V9h2v3z"/>'),   
   versicherung: SVG('<path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.35C17.25 21.15 21 16.25 21 11V6L12 2zm0 4l6 2.73V11c0 3.5-2.33 6.79-6 8.2C8.33 17.79 6 14.5 6 11V8.73L12 6z"/>'),
   urlaub: SVG('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>'),
 };
@@ -26,7 +27,9 @@ const categoryColors = {
   wohnen: '#00b4c8aa', lebensmittel: '#34d399', transport: '#d42d49',
   gesundheit: '#6e9ee7', freizeit: '#9ab910', technik: '#5eead4', sonstiges: '#059669',
   reisen: '#06b6d4', shoppen: '#a78bfa', schenkung: '#f472b6', investitionen: '#fbbf24',
-  fahrzeug: '#f5590b', bildung: '#87189a53', versicherung: '#c1a43dd5', urlaub: '#86b9e7'
+  fahrzeug: '#f5590b', weiter_bildung: '#87189a53', versicherung: '#c1a43dd5', urlaub: '#86b9e7',
+  uni: '#45124e53'
+  
 };
 
 // ── State ──────────────────────────────────────────────────────────────────────
@@ -155,6 +158,8 @@ const editReceiptLabel   = document.getElementById('editReceiptLabel');
 const editReceiptFile    = document.getElementById('editReceiptFile');
 const editReceiptRemove  = document.getElementById('editReceiptRemove');
 const taxCount           = document.getElementById('taxCount');
+const taxRelevantList    = document.getElementById('taxRelevant');
+const taxEmptyState      = document.getElementById('taxEmptyState');
 
 // ── Theme ──────────────────────────────────────────────────────────────────────
 (function initTheme() {
@@ -176,14 +181,17 @@ registerSW();
 
 
 // ___ Tax Relevance ____________
+// bill hast to be type of category
+// bill -> document.getElementByID('billcategory')
 function taxRelevant(bill)
 {
+
+  let tax_relevant = false;
+
  
-  const tax_relevant = false;
-  
-  if(bill.value === "fahrtkosten" || bill.value === "gesundheit"  || bill.value === "technik" || 
-    bill.value === "gebühren" || bill.value === "bildung" ||  bill.value === "uni" ||
-    bill.value === "investition" || bill.value === "versicherung" || bill.value === "zweit Miete" ){
+  if(bill === "fahrtkosten" || bill === "gesundheit"  || bill === "technik" ||
+    bill === "gebühren" || bill === "weiter_bildung" ||  bill === "uni" ||
+    bill === "versicherung" || bill === "zweit Miete" || bill === "schenkung" ){
       tax_relevant = true;
     }
     // return if bill is tax relevant 
@@ -196,8 +204,9 @@ tabBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
     activeTab = btn.dataset.tab;
     tabBtns.forEach((b) => b.classList.toggle('active', b === btn));
-    list.style.display     = activeTab === 'active' ? '' : 'none';
-    paidList.style.display = activeTab === 'paid'   ? '' : 'none';
+    list.style.display            = activeTab === 'active' ? '' : 'none';
+    paidList.style.display        = activeTab === 'paid'   ? '' : 'none';
+    taxRelevantList.style.display = activeTab === 'tax'    ? '' : 'none';
   });
 });
 
@@ -355,23 +364,29 @@ function handleListClick(e) {
 
 list.addEventListener('click', handleListClick);
 paidList.addEventListener('click', handleListClick);
+taxRelevantList.addEventListener('click', handleListClick);
 
 // ── Render ─────────────────────────────────────────────────────────────────────
 function render() {
   const activeBills = bills.filter((b) => b.paymentStatus !== 'full');
   const paidBills   = bills.filter((b) => b.paymentStatus === 'full');
+  const taxBills    = bills.filter((b) => taxRelevant(b.category));
   const allSum      = bills.reduce((s, b) => s + b.amount, 0);
 
   emptyState.style.display     = activeBills.length ? 'none' : 'flex';
   paidEmptyState.style.display = paidBills.length   ? 'none' : 'flex';
+  taxEmptyState.style.display  = taxBills.length    ? 'none' : 'flex';
+
   countBadge.textContent       = activeBills.length;
   paidCount.textContent    = paidBills.length;
+  taxCount.textContent     = taxBills.length;
   headerCount.textContent  = bills.length;
   headerTotal.textContent  = fmt(allSum);
   animateTotal(allSum);
 
   list.querySelectorAll('.bill-item, .bill-category-header').forEach((el) => el.remove());
   paidList.querySelectorAll('.bill-item, .bill-category-header').forEach((el) => el.remove());
+  taxRelevantList.querySelectorAll('.bill-item, .bill-category-header').forEach((el) => el.remove());
 
   const sortFn = (a, b) => {
     if (sortBy === 'amount') return b.amount - a.amount;
@@ -384,7 +399,7 @@ function render() {
   const delIcon   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
   const reactIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>`;
 
-  const renderGrouped = (billsArr, container, isPaid) => {
+  const renderGrouped = (billsArr, container, isPaid, editable = true) => {
     const groups = {}, order = [];
     [...billsArr].sort(sortFn).forEach((b) => {
       if (!groups[b.category]) { groups[b.category] = []; order.push(b.category); }
@@ -426,10 +441,10 @@ function render() {
             </div>
           </div>
           <span class="bill-amount">${fmt(b.amount)}</span>
-          <button class="bill-pay" data-id="${b.id}" aria-label="Bearbeiten">${editIcon}</button>
+          ${editable ? `<button class="bill-pay" data-id="${b.id}" aria-label="Bearbeiten">${editIcon}</button>` : ''}
           ${b.receiptId ? `<button class="bill-receipt" data-receipt="${b.receiptId}" data-name="${escHtml(b.name)}" aria-label="Beleg anzeigen">${recIcon}</button>` : ''}
           ${isPaid ? `<button class="bill-reactivate" data-id="${b.id}" aria-label="Reaktivieren">${reactIcon}</button>` : ''}
-          <button class="bill-delete" data-id="${b.id}" aria-label="Loeschen">${delIcon}</button>
+          ${editable ? `<button class="bill-delete" data-id="${b.id}" aria-label="Loeschen">${delIcon}</button>` : ''}
         `;
         container.appendChild(li);
       });
@@ -438,6 +453,7 @@ function render() {
 
   renderGrouped(activeBills, list, false);
   renderGrouped(paidBills, paidList, true);
+  renderGrouped(taxBills, taxRelevantList, false, false);
 
   renderSpendingBars();
 }

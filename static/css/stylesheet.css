@@ -565,7 +565,7 @@ section h2::before {
 .bill-list { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
 
 /* ---------- Empty state ---------- */
-.empty-state {
+.empty-state, .taxemptyState {
   display: flex;
   flex-direction: column;
   align-items: center;
