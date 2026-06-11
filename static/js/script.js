@@ -17,12 +17,12 @@ const categoryIcons = {
   schenkung:    SVG('<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>'),
   investitionen: SVG('<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="2 20 22 20"/>'),
   fahrzeug:      SVG('<path d="M5 16L3 12V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5l-2 4z"/><circle cx="7.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>'),
-  uni:          SVG('<path d="M12 3L2 8h2v9H2v2h20v-2h-2V8h2L12 3zm-4 9H6V9h2v3zm4 0h-2V9h2v3zm4 0h-2V9h2v3z"/>'),   
-  weiter_bildung:          SVG('<path d="M12 3L2 8h2v9H2v2h20v-2h-2V8h2L12 3zm-4 9H6V9h2v3zm4 0h-2V9h2v3zm4 0h-2V9h2v3z"/>'),   
+  uni:          SVG('<path d="M12 3L2 8h2v9H2v2h20v-2h-2V8h2L12 3zm-4 9H6V9h2v3zm4 0h-2V9h2v3zm4 0h-2V9h2v3z"/>'),
+  weiter_bildung: SVG('<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'),
   versicherung: SVG('<path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.35C17.25 21.15 21 16.25 21 11V6L12 2zm0 4l6 2.73V11c0 3.5-2.33 6.79-6 8.2C8.33 17.79 6 14.5 6 11V8.73L12 6z"/>'),
-  urlaub: SVG('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>'),
-  spenden:    SVG('<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>'),
-  
+  urlaub: SVG('<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'),
+  spenden: SVG('<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>'),
+
 };
 
 const categoryColors = {
@@ -330,10 +330,11 @@ searchInput.addEventListener('input', () => {
 function handleListClick(e) {
   const delBtn = e.target.closest('.bill-delete');
   if (delBtn) {
+    const bill = bills.find((b) => b.id === delBtn.dataset.id);
+    if (!confirm(`Ausgabe "${bill?.name ?? ''}" wirklich loeschen?`)) return;
     const li = delBtn.closest('.bill-item');
     li.classList.add('removing');
     li.addEventListener('animationend', async () => {
-      const bill = bills.find((b) => b.id === delBtn.dataset.id);
       if (bill?.receiptId) await dbDelete(bill.receiptId);
       bills = bills.filter((b) => b.id !== delBtn.dataset.id);
       save(); render();
@@ -629,18 +630,25 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeRecei
 // ── Export CSV ─────────────────────────────────────────────────────────────────
 btnExport.addEventListener('click', () => {
   if (!bills.length) { showToast('Keine Daten zum Exportieren.', 'warn'); return; }
-  const rows = [['Name', 'Betrag (EUR)', 'Kategorie', 'Datum', 'Beleg']];
+  const rows = [['Name', 'Betrag (EUR)', 'Kategorie', 'Datum', 'Beleg', "Absetzbar"]];
   bills.forEach((b) => rows.push([
     `"${b.name.replace(/"/g, '""')}"`,
     b.amount.toFixed(2).replace('.', ','),
     b.category, formatDate(b.date),
     b.receiptId ? 'Ja' : 'Nein',
+    b.taxID ? 'Ja' : 'Nein',
   ]));
+  const csvContent = '\uFEFF' + rows.map((r) => r.join(';')).join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
   const link = Object.assign(document.createElement('a'), {
-    href:     'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(rows.map((r) => r.join(';')).join('\n')),
+    href:     url,
     download: `ausgaben_${new Date().toISOString().split('T')[0]}.csv`,
   });
+  document.body.appendChild(link);
   link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
   showToast('CSV exportiert');
 });
 
