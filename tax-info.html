@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <meta name="theme-color" content="#07090f" />
+    <meta name="description" content="Dein smarter Rechnungstracker" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="eXpenseTracker" />
+    <title>steuerlich Absetzbarkeit</title>
+    <link rel="manifest" href="/static/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/static/icons/favicon.svg" />
+    <link rel="apple-touch-icon" href="/static/icons/icon.svg" />
+    <link rel="stylesheet" href="/static/css/stylesheet.css" />
+  </head>
+  <body>
+
+    <header class="app-header">
+       <button class="theme-toggle" id="themeToggle" aria-label="Theme wechseln">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12"c y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+      <button class="expense-icon-toggle" id="eXpenseBtn" aria-label="Expense Tracker">
+        <a  href="index.html" target="_self" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <!-- Outer Circle -->
+          <circle cx="12" cy="12" r="10" fill="var(--clr-accent)" />
+          <!-- Inner Circle --->
+           <circle cx="12" cy="8" r="1.5" fill="black" /> 
+           <!-- "i" stem-->
+            <rect x="11" y="11" width="2" height="6" rx="1" fill="black" />
+        </svg>
+        </a>
+      </button>
+
+        <h1>Ta<span>X</span> return</h1>
+      <p class="subtitle">Steuerliche Absetzbarkeit</p>
+
+      
+    </header>
+
+    <main class="app-main">
+
+      <!-- Suche -->
+      <section class="section-search">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <label for="searchInput" class="sr-only">Abgaben suchen</label>
+          <input id="searchInput" type="search" placeholder="Abgaben suchen…" autocomplete="off" />
+        </div>
+      </section>
+
+      <!-- Neue Ausgabe -->
+      <section>
+        <h2>
+         NACHWEISPFLICHT ÜBERSICHT
+        Stand: Steuerjahr 2026
+        
+        </h2><br>
+        <h3>WICHTIGER GRUNDSATZ</h3>
+        <p class="wichtiger-grundsatz-info">
+            Seit 2017 gilt die Belegvorhaltepflicht (nicht mehr Belegvorlagepflicht). Quittungen müssen der Steuererklärung NICHT mehr beigelegt werden,
+            aber aufbewahrt werden (seit 2025: 8 Jahre), da das Finanzamt sie
+            jederzeit nachträglich anfordern kann. <br><br>
+            <strong>
+            Legende:  
+            </strong><br>
+            <ul>
+             <li><strong><i>JA</i></strong>: Belege aufbewahren (bei Nachfrage vorlegen)</li>
+             <li><strong><i>NEIN</i></strong>: kein Nachweis erforderlich</li>
+             <li><strong><i>PAUSCHAL</i></strong>: Pauschalbetrag, keine Einzelbelege nötig</li>
+            </ul>
+          
+        </p><br>
+        <h3>Studenten</h3><br>
+        <p class="studenten-info">
+
+            
+Semesterbeiträge / Studiengebühren
+  Nachweis: JA
+  Details:  Bescheid oder Rechnung der Hochschule aufbewahren
+            Max. absetzbar (Erststudium/Sonderausgaben): 6.000 EUR/Jahr
+
+Prüfungsgebühren
+  Nachweis: JA
+  Details:  Quittung / Zahlungsbeleg aufbewahren
+
+Arbeitsmaterialien (Laptop, PC, iPad, Drucker, Bücher, Kurse)
+  Nachweis: JA
+  Details:  Kaufquittungen und Rechnungen aufbewahren
+            Geräte über 800 EUR netto ggf. auf mehrere Jahre verteilen
+
+Werbungskosten Zweitstudium (z. B. Master) – Verlustvortrag
+  Nachweis: JA
+  Details:  Alle Belege für spätere Veranlagungsjahre aufbewahren
+
+Fahrtkosten zur Uni
+  Nachweis: PAUSCHAL
+  Details:  Entfernungspauschale – keine Tankquittungen nötig
+            Nur Entfernung (km) und Fahrtage angeben
+
+Auslandssemester
+  Nachweis: JA
+  Details:  Flugtickets, Unterkunftsbelege,
+            Immatrikulationsbescheinigung aufbewahren
+
+Zweitwohnsitz wegen Uni
+  Nachweis: JA
+  Details:  Mietvertrag, Mietquittungen und
+            Immatrikulationsbescheinigung aufbewahren
+
+
+
+        </p><br>
+        <h3>Arbeitnehmer/ Angestellter</h3><br>
+        <p class="arbeitnehmer-info">
+            Entfernungspauschale (Weg zur Arbeit)
+  Nachweis: PAUSCHAL
+  Details:  Keine Tankbelege oder Tickets erforderlich
+            Erste 20 km: 0,30 EUR/km | ab 21. km: 0,38 EUR/km
+            Nur Entfernung und Arbeitstage angeben
+
+Fahrtkosten ÖPNV / Monatsticket
+  Nachweis: JA (nur wenn tatsächliche Kosten > Pauschale)
+  Details:  Tickets oder Jahresabo-Rechnung aufbewahren
+
+Homeoffice-Pauschale (6 EUR/Tag, max. 1.260 EUR/Jahr = 210 Tage)
+  Nachweis: PAUSCHAL
+  Details:  Keine Rechnungen für Strom/Heizung/Internet nötig
+            Nur Anzahl der Homeoffice-Tage dokumentieren (z. B. Kalender)
+
+Häusliches Arbeitszimmer (Jahrespauschale bis 1.260 EUR)
+  Nachweis: PAUSCHAL
+  Details:  Keine Einzelbelege für die Pauschale
+            Bei anteiliger Miete: Mietvertrag + Grundriss aufbewahren
+
+Reisekosten (Dienstreisen, Fortbildungen, Kundenbesuche)
+  Nachweis: JA / PAUSCHAL
+  Details:  Fahrtkosten und Übernachtungen: JA (Belege aufbewahren)
+            Verpflegungspauschalen: PAUSCHAL (kein Kassenbon nötig)
+
+Berufsbekleidung (Kauf und Reinigung)
+  Nachweis: JA
+  Details:  Quittungen für typische Berufskleidung aufbewahren
+            (z. B. Sicherheitsschuhe, Arztkittel, Uniform)
+
+Telefon- und Internetkosten (pauschal 20 %, max. 20 EUR/Monat)
+  Nachweis: PAUSCHAL
+  Details:  Monatsrechnung aufbewahren
+            Einzelnachweise beruflicher Gespräche nicht erforderlich
+
+Kontoführungsgebühren (16 EUR/Jahr)
+  Nachweis: NEIN
+  Details:  Pauschalbetrag – kein Nachweis erforderlich
+
+
+
+
+        </p><br>
+        <h3>Selbstständige</h3><br>
+        <p class="selbststaendige-info">
+            Betriebsausgaben (z. B. Büromaterial, Software, Miete)
+  Nachweis: JA
+  Details:  Alle Rechnungen und Quittungen aufbewahren
+            (z. B. Büromaterial, Software, Miete)
+        <h3>Freiberufler</h3><br>
+        <h3>Renter</h3>
+        <p class="renter-info">
+            
+Werbungskostenpauschale (102 EUR/Jahr)
+  Nachweis: NEIN
+  Details:  Wird automatisch angerechnet
+
+Medizinische Behandlungen
+(Zuzahlungen, Medikamente, Zahnersatz, Brille, Hörgerät,
+ orthopädische Hilfsmittel)
+  Nachweis: JA
+  Details:  Rechnungen, Rezepte und Kassenbons aufbewahren
+            Nur der Betrag über der zumutbaren Belastung wird anerkannt
+
+Arzt- und Fahrtkosten (Arzt, Therapeut, Apotheke)
+  Nachweis: JA / PAUSCHAL
+  Details:  30 Cent pro km (pauschal)
+            Terminbelege oder Fahrtenbuch zur Dokumentation empfohlen
+
+Kur- und Klinikaufenthalte
+  Nachweis: JA
+  Details:  Ärztliches Attest ZWINGEND erforderlich
+            Zusätzlich Rechnungen der Einrichtung aufbewahren
+
+Pflegekosten (ambulanter Pflegedienst / Pflegeheim)
+  Nachweis: JA
+  Details:  Rechnungen des Pflegedienstes aufbewahren
+            Pflegegradbescheid der Pflegekasse bereithalten
+
+Behindertenpauschalbetrag (gestaffelt je nach GdB)
+  Nachweis: PAUSCHAL
+  Details:  Feststellungsbescheid des Versorgungsamts genügt
+            Keine Einzelnachweise erforderlich
+            Pauschbeträge: 384 EUR (GdB 20) bis 7.400 EUR (blind/hilflos)
+        </p><br>
+
+        <h3>Schüler</h3><br>
+        <p class="schueler-info">
+
+
+        </p>
+        
+      </section>
+      
+        
+
+    <footer class="app-footer">
+   
+      <p class="footer-copy">© 2026 eXpenseTracker &nbsp;·&nbsp; v2.0</p>   
+    <span><p class="footer-copy">
+      <i class="fa-brands fa-github">   <a href="https://github.com/SandrAdora" aria-label="GitHub" target="_self" rel="noopener noreferrer"></i></p>
+    </a></span>
+    
+    <p class="footer-copy">Entwickelt von <a href="https://portfolio-1goj.onrender.com" target="_self" rel="noopener noreferrer">Sandra</a></p>
+    </footer>    
+        <script src="/static/js/script.js" defer></script>
+  </body>
+</html>

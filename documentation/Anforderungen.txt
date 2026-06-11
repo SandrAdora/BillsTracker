@@ -1,13 +1,38 @@
 
 Steuerlich Absetzbar
 
+* Quittungen: JA / Nein / Pauschal
+
 * Student:
     * Sonderausgaben -> Erststudium Kosten -> Semesterbeiträge vollständig Absetzbar -> max. absetzbar bis 6000
     * Werbungskosten -> zweitstudium (zb. masters) steuerlich als vortrag ins Berufsleben mitnehmen
     * Arbeitsmaterialien: Laptop/PC Ipad, Kurse, Bücher, Drucker,
+    
     * Gebühren: Studiengebühre, Prüfungsgebühren
-    * Mobilität: Fahrtkosten zu Uni 
+    * Mobilität: Fahrtkosten zu Uni , Auslandssemster 
     * Wohnen: Zweitwohnsitz, wegen der uni ist steuerlich Absetzbar
 
 * Angestellter
-    * Mobilität: KM Strecke zur Arbeit 30 ct pro KM
+    * Entfernungspauschale: Weg zur Arbeit KM Strecke zur Arbeit 30 ct pro KM für den ersten 20 km, 38 ct ab dem 21 km 
+    * Fahrtkosten: Ticket / Monatsticket 
+    * Homeoffice-Pauschale: Für die Tage in der ausschließlich von zu Hause aus gearbeitet wird WLAN / Internet 
+    * Häusliches Arbeitszimmer: PC / Laptop  bis zu 1260 EURO (Jahres Pauschale )
+    * Reisekosten: Kosten für die Dienstreisen, Fortbildungen od. Kundenbesuche (Fahrtkosten / Übernachtungskosten / Verpflegungspauschale)
+    * Berufsbekleidung: Anschaffung von BB od. Reinigung typischer BB (Berufsbekleidung), zb. Sicherheitsschuhe, Arztkittel etc. 
+    * Telefon- U. Internetkosten: Berufliche veranlasste Telefonate &&  Internet nutzung ohne Einzelnachweis erkennen Finanzämter oft pauschal 20% Monatsrechnung (max. 20 EUR pro Monat an)
+    * Kontoführungsgebühren: Für das Gehaltskonto können ohne Nachweis 16 EURO pauschal im Jahr eingetragen werden 
+
+* Rentner
+    * Werbungskostenpauschle: 102 EUR werden / können angerechnet werden 
+    * Medizinische Behandlungen: Zuzahlungen zu Medikamenten, Zahnersatz, Brillen, Hörgeräte od. Orthopädischen Hilfmittlen 
+    * Arzt-u. Fahrtkosten: Fahrten zu Ärzten, Therapeuten od. Apotheken (Nachweise od. 30 cent pro kilometer)
+    * Kur- u. Klinikaufenthalte: Kosten für medizinish notwendige Kuren, sofern ein ärztliches Attest vorliegt 
+    * Pflegekosten: Ausgaben für einen ambulanten pflegdienst od. die Unterbringung in einem Pflegheim 
+    * Behindertenpauschalbetrag: Bei einem festgestellten Grad der Behinderung gibt es gestaffelte pauschbeträge, die ohne Einzelnachweise direkt abgezogen werden 
+
+* Pflichtversicherungen sind Allgemein Absetzbar  
+    * Kranken- u. Pflegeversicherung: Die eigenen Beiträge zur gesetzlichen od. privaten Krankenversicherung sind voll absetzbar 
+    * Weitere Versicherungen: Haftpflichtversicherung ( auch KFZ-Haftfplicht) od. Unfallversicherung 
+    * Spenden & Kirchensteuer: Gezahlten Kirchensteuer sowie spenden an gemeinnützige Organisationen -> vbs zu 300 EUR reicht der Kontoauszug als Nachweis 
+    
+    

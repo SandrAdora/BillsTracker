@@ -25,7 +25,7 @@ const categoryColors = {
   wohnen: '#00b4c8aa', lebensmittel: '#34d399', transport: '#d42d49',
   gesundheit: '#6e9ee7', freizeit: '#9ab910', technik: '#5eead4', sonstiges: '#059669',
   reisen: '#06b6d4', shoppen: '#a78bfa', schenkung: '#f472b6', investitionen: '#fbbf24',
-  fahrzeug: '#f5590b',
+  fahrzeug: '#f5590b', bildung: '#87189a53', versicherung: '#0b16ec',
 };
 
 // ── State ──────────────────────────────────────────────────────────────────────
@@ -177,6 +177,10 @@ registerSW();
 //__Tax relatable ________________________________________________________________
 function taxRelatable(bill)
 {
+
+  // iterate through the categorie catInput
+  if (bill.category === "transport" || bill.category === "bildung" || bill.category ==== "uni"
+    || bill.category === "fahrzeug" || bill.category === "versicherung" || bill.category === "gesundheit")
 
 }
 // ── Tabs ───────────────────────────────────────────────────────────────────────

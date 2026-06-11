@@ -142,6 +142,30 @@ body::after {
   box-shadow: var(--shadow);
 }
 
+.tax-icon-toggle, .expense-icon-toggle {
+  position: absolute;
+  top: 1.25rem; 
+  left: 1.25rem;
+  width: 38px; height: 38px; 
+  border-radius: 50%;
+  border: 1px solid var(--clr-border2);
+  background: var(--clr-surface); 
+  color: var(--clr-muted);
+  cursor: pointer;
+  display: flex; align-items:center; justify-content: center; 
+  transition: border-color var(--t), color var(--t), background var(--t), 
+  box-shadow var(--t); 
+  box-shadow: var(--shadow); 
+}
+
+
+.tax-icon-toogle:hover, .expense-icon-toggle:hover {
+  border-color: var(--clr-accent); 
+  color: var(--clr-accent); 
+  box-shadow: 0 0 16px rgba(0, 200, 140, .2);
+
+}
+
 .theme-toggle:hover {
   border-color: var(--clr-accent);
   color: var(--clr-accent);
