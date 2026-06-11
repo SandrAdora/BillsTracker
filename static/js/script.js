@@ -173,16 +173,6 @@ addRipple(submitBtn);
 render();
 registerSW();
 
-
-//__Tax relatable ________________________________________________________________
-function taxRelatable(bill)
-{
-
-  // iterate through the categorie catInput
-  if (bill.category === "transport" || bill.category === "bildung" || bill.category ==== "uni"
-    || bill.category === "fahrzeug" || bill.category === "versicherung" || bill.category === "gesundheit")
-
-}
 // ── Tabs ───────────────────────────────────────────────────────────────────────
 tabBtns.forEach((btn) => {
   btn.addEventListener('click', () => {

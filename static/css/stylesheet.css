@@ -1492,3 +1492,213 @@ section h2::before {
   background: var(--clr-border2);
   margin: .95rem 0 .85rem;
 }
+
+/* ============================================================
+   Tax info page
+   ============================================================ */
+
+.section-meta {
+  font-size: .65rem;
+  color: var(--clr-muted);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-weight: 600;
+  margin: -.7rem 0 1.2rem;
+}
+
+/* ---------- Info banner ---------- */
+.info-banner {
+  background: var(--clr-surface2);
+  border: 1px solid var(--clr-border2);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.2rem;
+}
+
+.info-banner h3 {
+  font-size: .76rem;
+  font-weight: 800;
+  color: var(--clr-text);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: .6rem;
+}
+
+.info-banner p {
+  font-size: .84rem;
+  line-height: 1.65;
+  color: var(--clr-muted);
+}
+
+.legend-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  margin-top: 1rem;
+  padding-top: .9rem;
+  border-top: 1px solid var(--clr-border2);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  font-size: .8rem;
+  color: var(--clr-text);
+}
+
+/* ---------- Nachweis badges ---------- */
+.nachweis-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .62rem;
+  font-weight: 800;
+  padding: .22rem .58rem;
+  border-radius: 999px;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nachweis-badge--ja {
+  background: rgba(16,185,129,.15);
+  color: var(--clr-success);
+  border: 1px solid rgba(16,185,129,.25);
+}
+
+.nachweis-badge--nein {
+  background: var(--clr-surface2);
+  color: var(--clr-muted);
+  border: 1px solid var(--clr-border2);
+}
+
+.nachweis-badge--pauschal {
+  background: rgba(45,212,191,.12);
+  color: var(--clr-accent3);
+  border: 1px solid rgba(45,212,191,.28);
+}
+
+.nachweis-badge--mixed {
+  background: rgba(251,191,36,.1);
+  color: #f59e0b;
+  border: 1px solid rgba(251,191,36,.22);
+}
+
+.nachweis-badge--auto {
+  background: rgba(56,189,248,.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56,189,248,.26);
+}
+
+/* ---------- Category tabs ---------- */
+.tax-tab-nav {
+  flex-wrap: wrap;
+  gap: .35rem;
+  border-radius: var(--radius-sm);
+}
+
+.tax-tab-nav .tab-btn {
+  flex: 1 1 calc(33.333% - .35rem);
+}
+
+@media (max-width: 480px) {
+  .tax-tab-nav .tab-btn {
+    flex: 1 1 calc(50% - .35rem);
+    font-size: .68rem;
+    padding: .42rem .5rem;
+    gap: .3rem;
+  }
+}
+
+/* ---------- Tax list ---------- */
+.tax-list {
+  display: none;
+  list-style: none;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.tax-list.active { display: flex; }
+
+.tax-item {
+  display: flex;
+  gap: .85rem;
+  background: var(--clr-surface2);
+  border: 1px solid var(--clr-border2);
+  border-left: 4px solid var(--item-accent, var(--clr-accent));
+  border-radius: var(--radius-sm);
+  padding: .9rem 1rem;
+  animation: slideIn .28s cubic-bezier(.25,.8,.25,1) both;
+  transition: background var(--t), box-shadow var(--t), transform var(--t);
+}
+
+.tax-item:hover {
+  background: color-mix(in srgb, var(--item-accent, var(--clr-accent)) 5%, var(--clr-surface2));
+  box-shadow:
+    0 4px 20px rgba(0,0,0,.3),
+    0 0 0 1px color-mix(in srgb, var(--item-accent, var(--clr-accent)) 28%, transparent);
+  transform: translateX(3px);
+}
+
+.tax-item.hidden { display: none; }
+
+.tax-item-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--item-accent, var(--clr-accent)) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--item-accent, var(--clr-accent)) 35%, transparent);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--item-accent, var(--clr-accent));
+  font-size: .85rem;
+}
+
+.tax-item-body { flex: 1; min-width: 0; }
+
+.tax-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  margin-bottom: .35rem;
+}
+
+.tax-item-name {
+  font-weight: 700;
+  font-size: .88rem;
+  color: var(--clr-text);
+}
+
+.tax-item-detail {
+  font-size: .8rem;
+  line-height: 1.55;
+  color: var(--clr-muted);
+}
+
+.tax-item-note {
+  font-size: .72rem;
+  line-height: 1.55;
+  color: var(--clr-muted);
+  opacity: .75;
+  font-style: italic;
+  margin-top: .3rem;
+}
+
+.tax-sub-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-top: .55rem;
+}
+
+.tax-sub-list li {
+  font-size: .68rem;
+  font-weight: 600;
+  color: var(--clr-text);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border2);
+  border-radius: 999px;
+  padding: .22rem .62rem;
+}
