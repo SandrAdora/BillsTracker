@@ -630,13 +630,13 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeRecei
 // ── Export CSV ─────────────────────────────────────────────────────────────────
 btnExport.addEventListener('click', () => {
   if (!bills.length) { showToast('Keine Daten zum Exportieren.', 'warn'); return; }
-  const rows = [['Name', 'Betrag (EUR)', 'Kategorie', 'Datum', 'Beleg', "Absetzbar"]];
+  const rows = [['Name', 'Betrag (EUR)', 'Kategorie', 'Datum', 'Beleg', "Steuerlich Absetzbar"]];
   bills.forEach((b) => rows.push([
     `"${b.name.replace(/"/g, '""')}"`,
     b.amount.toFixed(2).replace('.', ','),
     b.category, formatDate(b.date),
     b.receiptId ? 'Ja' : 'Nein',
-    b.taxID ? 'Ja' : 'Nein',
+    taxRelevant(b.category) ? 'Ja' : 'Nein',
   ]));
   const csvContent = '\uFEFF' + rows.map((r) => r.join(';')).join('\r\n');
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
