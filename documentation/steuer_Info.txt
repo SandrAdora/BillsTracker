@@ -52,6 +52,11 @@ Zweitwohnsitz wegen Uni
   Details:  Mietvertrag, Mietquittungen und
             Immatrikulationsbescheinigung aufbewahren
 
+Studien- / Bildungskredit-Zinsen
+  Nachweis: JA
+  Details:  Zinsbescheinigung der Bank aufbewahren
+            Absetzbar als Werbungskosten bzw. Sonderausgaben
+
 
 ================================================================
   ANGESTELLTER
@@ -81,6 +86,16 @@ Reisekosten (Dienstreisen, Fortbildungen, Kundenbesuche)
   Nachweis: JA / PAUSCHAL
   Details:  Fahrtkosten und Übernachtungen: JA (Belege aufbewahren)
             Verpflegungspauschalen: PAUSCHAL (kein Kassenbon nötig)
+
+Fortbildungskosten (Kurse, Seminare, Fachliteratur)
+  Nachweis: JA
+  Details:  Rechnungen für Kurs-, Seminar- und Lehrmaterialkosten aufbewahren
+            Vollständig als Werbungskosten absetzbar, wenn beruflich veranlasst
+
+Bewerbungskosten
+  Nachweis: JA
+  Details:  Belege für Bewerbungsfotos, Porto, Mappen und
+            Fahrtkosten zu Vorstellungsgesprächen aufbewahren
 
 Berufsbekleidung (Kauf und Reinigung)
   Nachweis: JA
@@ -160,6 +175,14 @@ Spenden über 300 EUR
   Nachweis: JA
   Details:  Offizielle Zuwendungsbestätigung der Organisation
             ist zwingend erforderlich
+
+Haushaltsnahe Dienstleistungen / Handwerkerleistungen
+  Nachweis: JA
+  Details:  Rechnung und Überweisungsbeleg aufbewahren –
+            Barzahlung wird nicht anerkannt
+            20% der Arbeitskosten direkt von der Steuer abziehbar
+            (max. 1.200 EUR Handwerker bzw. 4.000 EUR haushaltsnahe
+            Dienstleistungen)
 
 
 ================================================================
