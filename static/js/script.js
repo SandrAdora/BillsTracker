@@ -185,16 +185,21 @@ registerSW();
 // ___ Tax Relevance ____________
 // bill hast to be type of category
 // bill -> document.getElementByID('billcategory')
-function taxRelevant(bill)
+function taxRelevant(bill, name)
 {
 
   let tax_relevant = false;
 
- 
+  
   if(bill === "fahrtkosten" || bill === "gesundheit"  || bill === "technik" ||
     bill === "gebühren" || bill === "weiter_bildung" ||  bill === "uni" ||
     bill === "versicherung" || bill === "zweit Miete" || bill === "spenden" ){
       tax_relevant = true;
+
+      if(bill === "technik" && name?.toLowerCase().includes("kopfhörer"))
+      {
+        tax_relevant = false;
+      }
     }
     // return if bill is tax relevant 
     return tax_relevant; 
@@ -373,7 +378,7 @@ taxRelevantList.addEventListener('click', handleListClick);
 function render() {
   const activeBills = bills.filter((b) => b.paymentStatus !== 'full');
   const paidBills   = bills.filter((b) => b.paymentStatus === 'full');
-  const taxBills    = bills.filter((b) => taxRelevant(b.category));
+  const taxBills    = bills.filter((b) => taxRelevant(b.category, b.name));
   const allSum      = bills.reduce((s, b) => s + b.amount, 0);
 
   emptyState.style.display     = activeBills.length ? 'none' : 'flex';
@@ -636,7 +641,7 @@ btnExport.addEventListener('click', () => {
     b.amount.toFixed(2).replace('.', ','),
     b.category, formatDate(b.date),
     b.receiptId ? 'Ja' : 'Nein',
-    taxRelevant(b.category) ? 'Ja' : 'Nein',
+    taxRelevant(b.category, b.name) ? 'Ja' : 'Nein',
   ]));
   const csvContent = '\uFEFF' + rows.map((r) => r.join(';')).join('\r\n');
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
